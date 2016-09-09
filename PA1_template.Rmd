@@ -7,12 +7,24 @@ output:
 
 
 ## Loading and preprocessing the data
+* Unzip the file to get the uncompressed activity.csv file.
+* Then load this .csv file.
 
-
+```{r}
+unzip("activity.zip")
+data<-read.csv("activity.csv")
+```
 
 ## What is mean total number of steps taken per day?
+* Do some basic data cleanup by replacing NA values in the step column with zeros prior to mean calculation. 
+* Group the steps by date and take the average.
 
-
+```{r}
+library(dplyr)
+data[is.na(data$steps), 1]<-c(0)
+grouped <- group_by(data, date)
+meanPerDay<-summarise(grouped, mean=mean(steps))
+```
 
 ## What is the average daily activity pattern?
 
