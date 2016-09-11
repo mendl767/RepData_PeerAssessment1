@@ -23,7 +23,8 @@ of steps/day, and report mean and median number of steps per day.
 library(dplyr)
 grouped <- group_by(data, date)
 totalPerDay<-summarize(grouped, total=sum(steps, na.rm=TRUE))
-hist(totalPerDay$total, main="Histogram of Total Steps/Day", xlab="Total Steps/Day", ylim=c(0,30))
+hist(totalPerDay$total, main="Histogram of Total Steps/Day", xlab="Total Steps/Day", 
+     ylim=c(0,30))
 ```
   
 The mean and median steps per day can be calculated from the total number of steps per day.
@@ -40,7 +41,8 @@ If missing values are ignored, the mean steps per day, meanPerDay, is `r as.inte
 Calculate a dataframe containing the average number of steps for each interval across all days in the dataset, meanSteps. Use this to generate a time series plot demonstrating the average daily activity pattern.
 ```{r SectionC1, fig.path='figure/'}
 meanSteps<-summarize(group_by(data, interval), meanSteps=mean(steps, na.rm=TRUE))
-plot(meanSteps$interval, meanSteps$meanSteps, type="l", xlab="Interval", ylab="Number of Steps", main="Average Number of Steps per Interval")
+plot(meanSteps$interval, meanSteps$meanSteps, type="l", xlab="Interval", 
+     ylab="Number of Steps", main="Average Number of Steps per Interval")
 ```
 
 The interval containing the maximum average number of steps can be identified from the dataframe meanSteps.
@@ -78,7 +80,8 @@ Create a new histogram of the total number of steps taken each day using the dat
 library(dplyr)
 groupedImp <- group_by(newdata, date)
 totalPerDayImputed<-summarize(groupedImp, total=sum(steps, na.rm=TRUE))
-hist(totalPerDayImputed$total, main="Histogram of Total Steps/Day with Imputed Values", xlab="Total Steps/Day", ylim=c(0,40))
+hist(totalPerDayImputed$total, main="Histogram of Total Steps/Day with Imputed Values", 
+     xlab="Total Steps/Day", ylim=c(0,40))
 ```
 
 Same as before, the mean and median steps per day can be calculated from the total number of steps per day.
@@ -94,7 +97,8 @@ Once we inpute the missing values, the mean number of steps per day, meanPerDayI
 
 Create new factor in dataset indicating whether a day is a weekday or weekend.
 ```{r SectionE1}
-newdata$dayType=weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sat"|weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sun"
+newdata$dayType=weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sat"|
+  weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sun"
 newdata[which(newdata$dayType == TRUE), c("dayType")]<-c("weekend")
 newdata[which(newdata$dayType == FALSE), c("dayType")]<-c("weekday")
 newdata$dayType<-factor(newdata$dayType)
@@ -107,7 +111,9 @@ groupedIntImp<-group_by(newdata, interval, dayType)
 meanStepsImp<-summarize(groupedIntImp, meanSteps=mean(steps, na.rm=TRUE))
 
 p <- ggplot(meanStepsImp, aes(interval, meanSteps)) + geom_line()
-p+facet_grid(dayType~.)+labs(title="Mean Number of Steps per Interval for Weekday/Weekend Days", x="Interval", y="Mean Number of Steps")
+p+facet_grid(dayType~.)+
+  labs(title="Mean Number of Steps per Interval for Weekday/Weekend Days", 
+       x="Interval", y="Mean Number of Steps")
 ```
   
 The above figure demonstrates that there are differences in activity patterns between weekday and weekend days. For example, the sharp increase in activity in weekday mornings near interval 500 is much less pronounced on the weekend days.

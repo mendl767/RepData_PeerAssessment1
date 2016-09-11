@@ -20,7 +20,8 @@ of steps/day, and report mean and median number of steps per day.
 library(dplyr)
 grouped <- group_by(data, date)
 totalPerDay<-summarize(grouped, total=sum(steps, na.rm=TRUE))
-hist(totalPerDay$total, main="Histogram of Total Steps/Day", xlab="Total Steps/Day", ylim=c(0,30))
+hist(totalPerDay$total, main="Histogram of Total Steps/Day", xlab="Total Steps/Day", 
+     ylim=c(0,30))
 ```
 
 ![](figure/SectionB1-1.png) 
@@ -41,7 +42,8 @@ Calculate a dataframe containing the average number of steps for each interval a
 
 ```r
 meanSteps<-summarize(group_by(data, interval), meanSteps=mean(steps, na.rm=TRUE))
-plot(meanSteps$interval, meanSteps$meanSteps, type="l", xlab="Interval", ylab="Number of Steps", main="Average Number of Steps per Interval")
+plot(meanSteps$interval, meanSteps$meanSteps, type="l", xlab="Interval", 
+     ylab="Number of Steps", main="Average Number of Steps per Interval")
 ```
 
 ![](figure/SectionC1-1.png) 
@@ -85,7 +87,8 @@ Create a new histogram of the total number of steps taken each day using the dat
 library(dplyr)
 groupedImp <- group_by(newdata, date)
 totalPerDayImputed<-summarize(groupedImp, total=sum(steps, na.rm=TRUE))
-hist(totalPerDayImputed$total, main="Histogram of Total Steps/Day with Imputed Values", xlab="Total Steps/Day", ylim=c(0,40))
+hist(totalPerDayImputed$total, main="Histogram of Total Steps/Day with Imputed Values", 
+     xlab="Total Steps/Day", ylim=c(0,40))
 ```
 
 ![](figure/SectionD3-1.png) 
@@ -105,7 +108,8 @@ Once we inpute the missing values, the mean number of steps per day, meanPerDayI
 Create new factor in dataset indicating whether a day is a weekday or weekend.
 
 ```r
-newdata$dayType=weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sat"|weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sun"
+newdata$dayType=weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sat"|
+  weekdays(as.Date(newdata$date, format="%Y-%m-%d"),abbreviate=TRUE)=="Sun"
 newdata[which(newdata$dayType == TRUE), c("dayType")]<-c("weekend")
 newdata[which(newdata$dayType == FALSE), c("dayType")]<-c("weekday")
 newdata$dayType<-factor(newdata$dayType)
@@ -119,7 +123,9 @@ groupedIntImp<-group_by(newdata, interval, dayType)
 meanStepsImp<-summarize(groupedIntImp, meanSteps=mean(steps, na.rm=TRUE))
 
 p <- ggplot(meanStepsImp, aes(interval, meanSteps)) + geom_line()
-p+facet_grid(dayType~.)+labs(title="Mean Number of Steps per Interval for Weekday/Weekend Days", x="Interval", y="Mean Number of Steps")
+p+facet_grid(dayType~.)+
+  labs(title="Mean Number of Steps per Interval for Weekday/Weekend Days", 
+       x="Interval", y="Mean Number of Steps")
 ```
 
 ![](figure/SectionE2-1.png) 
